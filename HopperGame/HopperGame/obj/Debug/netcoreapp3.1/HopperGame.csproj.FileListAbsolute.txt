@@ -1,0 +1,13 @@
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\HopperGame.exe
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\HopperGame.deps.json
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\HopperGame.runtimeconfig.json
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\HopperGame.runtimeconfig.dev.json
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\HopperGame.dll
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\HopperGame.pdb
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.csprojAssemblyReference.cache
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.AssemblyInfoInputs.cache
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.AssemblyInfo.cs
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.csproj.CoreCompileInputs.cache
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.dll
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.pdb
+D:\Рабочий стол\Git_proj\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.genruntimeconfig.cache
