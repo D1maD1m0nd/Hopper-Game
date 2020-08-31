@@ -18,7 +18,11 @@ namespace HopperGame
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
             string File_path = "D:/Рабочий стол/Git_proj/HopperGame/HopperGame/player.json";
+            Random rand = new Random();
+            string Name_user;
+            string Skills_user;
             
+
             using (var fs = new FileStream(File_path, FileMode.OpenOrCreate))
             {
                 var newPlayer = jsonFormatter.ReadObject(fs) as List<Player>;
@@ -26,19 +30,15 @@ namespace HopperGame
                 {
                     foreach (var player in newPlayer)
                     {
-                        Console.WriteLine(player.prof[0].name_prof);
-                        Console.WriteLine(player.prof[0].skills);
+
+                        Name_user = player.prof[rand.Next(player.prof.Count)].name_prof.ToString();
+                        Skills_user = player.prof[rand.Next(player.prof.Count)].name_prof.ToString();
+                        Console.WriteLine($"{Name_user}, {Skills_user}");
                     }
                 }
             }
         }
 
-        //Генерация свойства gender
-        static string PropertyRandStr(List<string> obj)
-        {
-            Random rand = new Random();
-            return obj[rand.Next(obj.Count)];
-        }
     }
         
 
