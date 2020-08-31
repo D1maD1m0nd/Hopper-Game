@@ -17,14 +17,14 @@ namespace HopperGame
         static void Main(string[] args)
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
-            using (var fs = new FileStream("Students.json", FileMode.OpenOrCreate))
+            using (var fs = new FileStream("D:/Рабочий стол/Git_proj/HopperGame/HopperGame/player.json", FileMode.OpenOrCreate))
             {
                 var newPlayer = jsonFormatter.ReadObject(fs) as List<Player>;
                 if (newPlayer != null)
                 {
-                    foreach (var group in newPlayer)
+                    foreach (var player in newPlayer)
                     {
-                        Console.WriteLine(group.Group.Name);
+                        Console.WriteLine(player.prof.Lawyer.skills);
                     }
                 }
             }

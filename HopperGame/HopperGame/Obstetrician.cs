@@ -9,8 +9,8 @@ namespace HopperGame
     public class Obstetrician
     {
         [DataMember]
-        public string name_prof { get; set; }
+        public string Name_prof { get; set; }
         [DataMember]
-        public string skills { get; set; }
+        public string Skills { get; set; }
     }
 }
