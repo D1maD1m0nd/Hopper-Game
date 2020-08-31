@@ -9,7 +9,7 @@ namespace HopperGame
     public class Player
     {
         [DataMember]
-        public Prof prof { get; set; }
+        public List<Prof> prof { get; set; }
         [DataMember]
         public List<string> gender { get; set; }
         [DataMember]
