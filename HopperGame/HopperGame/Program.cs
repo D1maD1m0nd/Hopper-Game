@@ -18,7 +18,8 @@ namespace HopperGame
         static void Main(string[] args)
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
-            string File_path = "D:/Рабочий стол/Git_proj/HopperGame/HopperGame/player.json";
+            //string File_path = "D:/Рабочий стол/Git_proj/HopperGame/HopperGame/player.json";
+            string File_path = System.IO.Path.GetFullPath(@"..\..\..\player.json");
             var users = new List<User>();
             Random rand = new Random();
 
@@ -46,7 +47,7 @@ namespace HopperGame
             }
             foreach(var user in users)
             {
-                Console.WriteLine($" Профессия {user.Prof} \n Описание профессии {user.Skill} \n Пол {user.Gender} \n Возраст {user.StageDev} \n Телосложение {user.Body}");
+                Console.WriteLine($"Профессия {user.Prof} \n Описание профессии {user.Skill} \n Пол {user.Gender} \n Возраст {user.StageDev} \n Телосложение {user.Body}");
                 Console.WriteLine("\n");
             }
            
