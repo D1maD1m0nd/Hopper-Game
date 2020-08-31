@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.Serialization.Json;
+using System.Reflection.Metadata;
 
 namespace HopperGame
 {
@@ -18,10 +19,8 @@ namespace HopperGame
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
             string File_path = "D:/Рабочий стол/Git_proj/HopperGame/HopperGame/player.json";
+            var users = new List<User>();
             Random rand = new Random();
-            string Name_user;
-            string Skills_user;
-            
 
             using (var fs = new FileStream(File_path, FileMode.OpenOrCreate))
             {
@@ -30,13 +29,27 @@ namespace HopperGame
                 {
                     foreach (var player in newPlayer)
                     {
-
-                        Name_user = player.prof[rand.Next(player.prof.Count)].name_prof.ToString();
-                        Skills_user = player.prof[rand.Next(player.prof.Count)].name_prof.ToString();
-                        Console.WriteLine($"{Name_user}, {Skills_user}");
+                        for (int i = 0; 10 > i; i++)
+                        {
+                            int item = rand.Next(player.prof.Count);
+                            users.Add(new User(
+                                    player.prof[item].name_prof.ToString(),
+                                    player.prof[item].skill.ToString(),
+                                    player.gender[rand.Next(player.gender.Count)].ToString(),
+                                    player.stage_dev[rand.Next(player.stage_dev.Count)].ToString(),
+                                    player.body[rand.Next(player.body.Count)].ToString()
+                                )
+                             );
+                        }
                     }
                 }
             }
+            foreach(var user in users)
+            {
+                Console.WriteLine($" Профессия {user.Prof} \n Описание профессии {user.Skill} \n Пол {user.Gender} \n Возраст {user.StageDev} \n Телосложение {user.Body}");
+                Console.WriteLine("\n");
+            }
+           
         }
 
     }

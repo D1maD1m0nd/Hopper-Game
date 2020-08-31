@@ -11,6 +11,6 @@ namespace HopperGame
         [DataMember]
         public string name_prof { get; set; }
         [DataMember]
-        public string skills { get; set; }
+        public string skill { get; set; }
     }
 }

@@ -5,18 +5,18 @@
           
           {
           "name_prof": "Obstetrician",
-          "skills": "Once a game can cure any disease, the degree of which is light, except for yourself"
+          "skill": "Once a game can cure any disease, the degree of which is light, except for yourself"
           },
 
          {
           "name_prof": "Lawyer",
-          "skills": "Once per game, it can redirect the voice to itself, which was against a certain player."
+          "skill": "Once per game, it can redirect the voice to itself, which was against a certain player."
          },
 
 
          {
           "name_prof": "Agronomist",
-          "skills": "It can add a crate of food to the bin."
+          "skill": "It can add a crate of food to the bin."
          }
         ] 
         
@@ -33,7 +33,7 @@
     "Elderly",
     "Childfree"
   ],
-  "Body":
+  "body":
   [
     "Thin",
     "Fat",

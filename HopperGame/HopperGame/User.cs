@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HopperGame
 {
-    class User
+    public class User
     {
 
         public string Prof { get; set; }
@@ -12,5 +12,14 @@ namespace HopperGame
         public string Gender { get; set; }
         public string StageDev { get; set; }
         public string Body { get; set; }
+
+        public User(string prof, string skill, string gender, string stagedev, string body)
+        {
+            Prof = prof;
+            Skill = skill;
+            Gender = gender;
+            StageDev = stagedev;
+            Body = body;
+        }
     }
 }
