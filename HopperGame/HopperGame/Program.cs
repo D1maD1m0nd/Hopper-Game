@@ -17,9 +17,14 @@ namespace HopperGame
     {
         static void Main(string[] args)
         {
+            //Создание объекта для сериализации json
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
-            //string File_path = "D:/Рабочий стол/Git_proj/HopperGame/HopperGame/player.json";
-            string File_path = System.IO.Path.GetFullPath(@"..\..\..\player.json");
+            
+            //Путь к файлу с характеристиками игрока
+            string File_path = Path.GetFullPath(@"..\..\..\player.json");
+            //Количество пользователей вводится при начале
+            int count_user = Convert.ToInt32(Console.ReadLine());
+            //Список возможных пользователей
             var users = new List<User>();
             Random rand = new Random();
 
@@ -30,27 +35,34 @@ namespace HopperGame
                 {
                     foreach (var player in newPlayer)
                     {
-                        for (int i = 0; 10 > i; i++)
-                        {
-                            int item = rand.Next(player.prof.Count);
-                            users.Add(new User(
-                                    player.prof[item].name_prof.ToString(),
-                                    player.prof[item].skill.ToString(),
-                                    player.gender[rand.Next(player.gender.Count)].ToString(),
-                                    player.stage_dev[rand.Next(player.stage_dev.Count)].ToString(),
-                                    player.body[rand.Next(player.body.Count)].ToString()
-                                )
-                             );
-                        }
+                        users = GenUsers(player, count_user);
                     }
                 }
             }
             foreach(var user in users)
             {
-                Console.WriteLine($"Профессия {user.Prof} \n Описание профессии {user.Skill} \n Пол {user.Gender} \n Возраст {user.StageDev} \n Телосложение {user.Body}");
+                Console.WriteLine($" Профессия {user.Prof} \n Описание профессии {user.Skill} \n Пол {user.Gender} \n Возраст {user.StageDev} \n Телосложение {user.Body}");
                 Console.WriteLine("\n");
             }
            
+        }
+        static List<User> GenUsers(Player player, int count_user)
+        {
+            var users = new List<User>();
+            Random rand = new Random();
+            for (int i = 0; count_user > i; i++)
+            {
+                int item = rand.Next(player.prof.Count);
+                users.Add(new User(
+                        player.prof[item].name_prof.ToString(),
+                        player.prof[item].skill.ToString(),
+                        player.gender[rand.Next(player.gender.Count)].ToString(),
+                        player.stage_dev[rand.Next(player.stage_dev.Count)].ToString(),
+                        player.body[rand.Next(player.body.Count)].ToString()
+                    )
+                 );
+            }
+            return users;
         }
 
     }
