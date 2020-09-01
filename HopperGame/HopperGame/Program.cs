@@ -22,12 +22,13 @@ namespace HopperGame
             
             //Путь к файлу с характеристиками игрока
             string File_path = Path.GetFullPath(@"..\..\..\player.json");
-            //Количество пользователей вводится при начале
-            int count_user = Convert.ToInt32(Console.ReadLine());
+           
             //Список возможных пользователей
             var users = new List<User>();
+
             Random rand = new Random();
 
+            //Поток чтения JSON
             using (var fs = new FileStream(File_path, FileMode.OpenOrCreate))
             {
                 var newPlayer = jsonFormatter.ReadObject(fs) as List<Player>;
@@ -35,30 +36,43 @@ namespace HopperGame
                 {
                     foreach (var player in newPlayer)
                     {
-                        users = GenUsers(player, count_user);
+                        users = GenUsers(player);
                     }
                 }
             }
             foreach(var user in users)
             {
-                Console.WriteLine($" Профессия {user.Prof} \n Описание профессии {user.Skill} \n Пол {user.Gender} \n Возраст {user.StageDev} \n Телосложение {user.Body}");
+                Console.WriteLine(  $" Имя пользователя: {user.Username}"+
+                                    $" \n Профессия: {user.Prof}" +
+                                    $" \n Описание профессии: {user.Skill}" +
+                                    $" \n Пол: {user.Gender} \n Возраст: {user.StageDev}" +
+                                    $" \n Телосложение: {user.Body}");
                 Console.WriteLine("\n");
             }
            
         }
-        static List<User> GenUsers(Player player, int count_user)
+        // Генерация списка пользователей, входные данные объект с свойствами, которые нужно присвоить игрокам
+        //количество игроков ,которые необходимо сгенерировать
+        static List<User> GenUsers(Player player)
         {
+            //Список пользователей
             var users = new List<User>();
+            //Количество пользователей
+            Console.Write("Ввведите количество пользователей: ");
+            int count_user = Convert.ToInt32(Console.ReadLine());
             Random rand = new Random();
             for (int i = 0; count_user > i; i++)
             {
-                int item = rand.Next(player.prof.Count);
+                Console.Write($"Введите имя пользователя № {i+1}: ");
+                string username = Console.ReadLine();
+                int item_prof = rand.Next(player.prof.Count);
                 users.Add(new User(
-                        player.prof[item].name_prof.ToString(),
-                        player.prof[item].skill.ToString(),
+                        player.prof[item_prof].name_prof.ToString(),
+                        player.prof[item_prof].skill.ToString(),
                         player.gender[rand.Next(player.gender.Count)].ToString(),
                         player.stage_dev[rand.Next(player.stage_dev.Count)].ToString(),
-                        player.body[rand.Next(player.body.Count)].ToString()
+                        player.body[rand.Next(player.body.Count)].ToString(),
+                        username
                     )
                  );
             }
