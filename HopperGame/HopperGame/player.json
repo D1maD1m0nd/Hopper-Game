@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [{
    "prof": 
 
@@ -90,3 +91,52 @@
   ]
 }
 ]
+=======
+{
+   "prof": 
+    [
+        {
+          "Obstetrician": 
+          {
+          "name_prof": "Obstetrician",
+          "skills": "Once a game can cure any disease, the degree of which is light, except for yourself"
+          }
+         },
+
+        {
+        "Lawyer":
+         {
+          "name_prof": "Lawyer",
+          "skills": "Once per game, it can redirect the voice to itself, which was against a certain player."
+         }
+        },
+
+        {
+        "Agronomist":
+         {
+          "name_prof": "Agronomist",
+          "skills": "It can add a crate of food to the bin."
+         }
+        }
+    ],
+
+  "gender":
+  [
+    "female",
+    "male"
+   ],
+  "stage_dev": 
+  [
+    "Young",
+    "папапа",
+    "Elderly",
+    "Childfree"
+  ],
+  "Body":
+  [
+    "Thin",
+    "Fat",
+    "Athlete"
+  ]
+}
+>>>>>>> 1e3838990f26c05c380f98105f25d6ca00802833
