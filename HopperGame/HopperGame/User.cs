@@ -13,15 +13,27 @@ namespace HopperGame
         public string StageDev { get; set; }
         public string Body { get; set; }
         public string[] Inventory { get; set; }
+        public string Character { get; set; }
 
-        public User(string prof, string skill, string gender, string stagedev, string body, string username)
+        public User(
+                    string prof,
+                    string skill,
+                    string gender,
+                    string stagedev,
+                    string body,
+                    string username,
+                    string[] inventory,
+                    string character
+            )
         {
-            Username = username;
             Prof = prof;
             Skill = skill;
             Gender = gender;
             StageDev = stagedev;
             Body = body;
+            Username = username;
+            Inventory = inventory;
+            Character = character;
         }
     }
 }
