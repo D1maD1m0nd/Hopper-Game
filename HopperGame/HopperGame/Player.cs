@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
+
 
 namespace HopperGame
 {
@@ -16,9 +15,11 @@ namespace HopperGame
         public List<string> stage_dev { get; set; }
         [DataMember]
         public List<string> body { get; set; }
-        [DataMember]
-        public List<string> inventory { get; set; }
+        //[DataMember]
+        //public List<string> inventory { get; set; }
         [DataMember]
         public List<string> character { get; set; }
+        [DataMember]
+        public List<string> hobby { get; set; }
     }
 }

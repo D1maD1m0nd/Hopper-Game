@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HopperGame
+﻿namespace HopperGame
 {
     public class User
     {
@@ -14,16 +10,18 @@ namespace HopperGame
         public string Body { get; set; }
         public string[] Inventory { get; set; }
         public string Character { get; set; }
+        public string Hobby { get; set; }
 
-        public User(
+        public User
+            (
                     string prof,
                     string skill,
                     string gender,
                     string stagedev,
                     string body,
                     string username,
-                    string[] inventory,
-                    string character
+                    string character,
+                    string hobby
             )
         {
             Prof = prof;
@@ -32,8 +30,9 @@ namespace HopperGame
             StageDev = stagedev;
             Body = body;
             Username = username;
-            Inventory = inventory;
+            //Inventory = inventory;
             Character = character;
+            Hobby = hobby;
         }
     }
 }

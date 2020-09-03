@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text;
 using System.Runtime.Serialization.Json;
-using System.Reflection.Metadata;
 
 namespace HopperGame
 {
@@ -41,11 +35,13 @@ namespace HopperGame
                     }
                 }
             }
-            foreach(var user in users)
+            foreach (var user in users)
             {
-                Console.WriteLine(  $" Имя пользователя: {user.Username}"+
+                Console.WriteLine($" Имя пользователя: {user.Username}" +
                                     $" \n Профессия: {user.Prof}" +
                                     $" \n Описание профессии: {user.Skill}" +
+                                    $"\n Хобби: {user.Hobby}" +
+                                    $"\n Характер:{user.Character}"+
                                     $" \n Пол: {user.Gender} \n Возраст: {user.StageDev}" +
                                     $" \n Телосложение: {user.Body}");
                 Console.WriteLine("\n");
@@ -68,12 +64,14 @@ namespace HopperGame
                 string username = Console.ReadLine();
                 int item_prof = rand.Next(player.prof.Count);
                 users.Add(new User(
-                        player.prof[item_prof].name_prof.ToString(),
-                        player.prof[item_prof].skill.ToString(),
-                        player.gender[rand.Next(player.gender.Count)].ToString(),
-                        player.stage_dev[rand.Next(player.stage_dev.Count)].ToString(),
-                        player.body[rand.Next(player.body.Count)].ToString(),
-                        username
+                        player.prof[item_prof].name_prof,
+                        player.prof[item_prof].skill,
+                        player.gender[rand.Next(player.gender.Count)],
+                        player.stage_dev[rand.Next(player.stage_dev.Count)],
+                        player.body[rand.Next(player.body.Count)],
+                        username,
+                        player.character[rand.Next(player.gender.Count)],
+                        player.hobby[rand.Next(player.gender.Count)]
                     )
                  );
             }
