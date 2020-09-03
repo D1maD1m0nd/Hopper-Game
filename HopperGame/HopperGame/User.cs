@@ -11,6 +11,7 @@
         public string[] Inventory { get; set; }
         public string Character { get; set; }
         public string Hobby { get; set; }
+        public string Health { get; set; }
 
         public User
             (
@@ -21,7 +22,8 @@
                     string body,
                     string username,
                     string character,
-                    string hobby
+                    string hobby,
+                    string health
             )
         {
             Prof = prof;
@@ -33,6 +35,7 @@
             //Inventory = inventory;
             Character = character;
             Hobby = hobby;
+            Health = health;
         }
     }
 }

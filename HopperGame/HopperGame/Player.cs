@@ -21,5 +21,7 @@ namespace HopperGame
         public List<string> Character { get; set; }
         [DataMember]
         public List<string> Hobby { get; set; }
+        [DataMember]
+        public List<string> Health { get; set; }
     }
 }

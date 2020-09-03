@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
+using static System.IO.Path;
 
 namespace HopperGame
 {
@@ -16,7 +17,7 @@ namespace HopperGame
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
             
             //Путь к файлу с характеристиками игрока
-            string filePath = Path.GetFullPath(@"..\..\..\player.json");
+            string filePath = GetFullPath(@"..\..\..\player.json");
            
             //Список возможных пользователей
             var users = new List<User>();
@@ -36,12 +37,18 @@ namespace HopperGame
             foreach (var user in users)
             {
                 Console.WriteLine($" Имя пользователя: {user.Username}" +
-                                    $" \n Профессия: {user.Prof}" +
-                                    $" \n Описание профессии: {user.Skill}" +
-                                    $"\n Хобби: {user.Hobby}" +
-                                    $"\n Характер:{user.Character}"+
-                                    $" \n Пол: {user.Gender} \n Возраст: {user.StageDev}" +
-                                    $" \n Телосложение: {user.Body}");
+                                  $" \n Профессия: {user.Prof}" +
+                                  $" \n Описание профессии: {user.Skill}" +
+                                  $"\n Возраст: {user.StageDev}" +
+                                  $" \n Пол: {user.Gender} " +
+                                  $" \n Телосложение: {user.Body}" +
+                                  $"\n Здоровье:{user.Health}" +
+                                  $"\n Характер:{user.Character}" +
+                                  $"\n Хобби: {user.Hobby}");
+                                    
+                                    
+                                    
+                                    ;
                 Console.WriteLine("\n");
             }
            
@@ -69,7 +76,8 @@ namespace HopperGame
                         player.Body[rand.Next(player.Body.Count)],
                         username,
                         player.Character[rand.Next(player.Character.Count)],
-                        player.Hobby[rand.Next(player.Hobby.Count)]
+                        player.Hobby[rand.Next(player.Hobby.Count)],
+                        player.Health[rand.Next(player.Health.Count)]
                     )
                  );
             }
