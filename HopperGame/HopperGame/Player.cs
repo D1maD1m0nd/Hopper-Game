@@ -8,18 +8,18 @@ namespace HopperGame
     public class Player
     {
         [DataMember]
-        public List<Prof> prof { get; set; }
+        public List<Prof> Profs { get; set; }
         [DataMember]
-        public List<string> gender { get; set; }
+        public List<string> Gender { get; set; }
         [DataMember]
-        public List<string> stage_dev { get; set; }
+        public List<string> StageDev { get; set; }
         [DataMember]
-        public List<string> body { get; set; }
+        public List<string> Body { get; set; }
         //[DataMember]
         //public List<string> inventory { get; set; }
         [DataMember]
-        public List<string> character { get; set; }
+        public List<string> Character { get; set; }
         [DataMember]
-        public List<string> hobby { get; set; }
+        public List<string> Hobby { get; set; }
     }
 }

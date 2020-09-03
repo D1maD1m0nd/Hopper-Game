@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Runtime.Serialization;
-using System.Text;
+
 
 namespace HopperGame
 {
@@ -9,8 +8,8 @@ namespace HopperGame
     public class Prof
     {
         [DataMember]
-        public string name_prof { get; set; }
+        public string NameProf { get; set; }
         [DataMember]
-        public string skill { get; set; }
+        public string Skill { get; set; }
     }
 }
