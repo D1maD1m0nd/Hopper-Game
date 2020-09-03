@@ -39,12 +39,14 @@ namespace HopperGame
                 Console.WriteLine($" Имя пользователя: {user.Username}" +
                                   $" \n Профессия: {user.Prof}" +
                                   $" \n Описание профессии: {user.Skill}" +
-                                  $"\n Возраст: {user.StageDev}" +
+                                  $"\n Возраст: {user.Old}" +
                                   $" \n Пол: {user.Gender} " +
-                                  $" \n Телосложение: {user.Body}" +
+                                  $" \n Рост: {user.Growth}" +
+                                  $" \n Вес: {user.Weight}" +
                                   $"\n Здоровье:{user.Health}" +
                                   $"\n Характер:{user.Character}" +
-                                  $"\n Хобби: {user.Hobby}");
+                                  $"\n Хобби: {user.Hobby}" +
+                                  $"\n Фобия:{user.Phobia}");
                                     
                                     
                                     
@@ -67,17 +69,20 @@ namespace HopperGame
             {
                 Console.Write($"Введите имя пользователя № {i+1}: ");
                 string username = Console.ReadLine();
+                
                 int itemProf = rand.Next(player.Profs.Count);
                 users.Add(new User(
                         player.Profs[itemProf].NameProf,
                         player.Profs[itemProf].Skill,
                         player.Gender[rand.Next(player.Gender.Count)],
-                        player.StageDev[rand.Next(player.StageDev.Count)],
-                        player.Body[rand.Next(player.Body.Count)],
+                        player.Old = rand.Next(16,71),
                         username,
                         player.Character[rand.Next(player.Character.Count)],
                         player.Hobby[rand.Next(player.Hobby.Count)],
-                        player.Health[rand.Next(player.Health.Count)]
+                        player.Health[rand.Next(player.Health.Count)],
+                        player.Weigth = rand.Next(40,130),
+                        player.Growth = rand.Next(140,210),
+                        player.Phobia[rand.Next(player.Phobia.Count)]
                     )
                  );
             }

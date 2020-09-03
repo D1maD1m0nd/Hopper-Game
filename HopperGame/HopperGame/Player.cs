@@ -11,8 +11,7 @@ namespace HopperGame
         public List<Prof> Profs { get; set; }
         [DataMember]
         public List<string> Gender { get; set; }
-        [DataMember]
-        public List<string> StageDev { get; set; }
+        public int Old { get; set; }
         [DataMember]
         public List<string> Body { get; set; }
         //[DataMember]
@@ -23,5 +22,10 @@ namespace HopperGame
         public List<string> Hobby { get; set; }
         [DataMember]
         public List<string> Health { get; set; }
+        [DataMember]
+        public List<string> Phobia { get; set; }
+        public int Growth { get; set; }
+        public int Weigth { get; set; }
+
     }
 }
