@@ -9,7 +9,7 @@
         public int Old { get; set; }
         public int Weight { get; set; }
         public int Growth { get; set; }
-        public string[] Inventory { get; set; }
+        public string Inventory { get; set; }
         public string Character { get; set; }
         public string Hobby { get; set; }
         public string Health { get; set; }
@@ -27,7 +27,8 @@
                     string health,
                     int weight,
                     int growth,
-                    string phobia
+                    string phobia,
+                    string inventory
             )
         {
             Prof = prof;
@@ -35,7 +36,7 @@
             Gender = gender;
             Old = old;
             Username = username;
-            //Inventory = inventory;
+            Inventory = inventory;
             Character = character;
             Hobby = hobby;
             Health = health;

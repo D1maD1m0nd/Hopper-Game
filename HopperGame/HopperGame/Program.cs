@@ -46,11 +46,8 @@ namespace HopperGame
                                   $"\n Здоровье:{user.Health}" +
                                   $"\n Характер:{user.Character}" +
                                   $"\n Хобби: {user.Hobby}" +
-                                  $"\n Фобия:{user.Phobia}");
-                                    
-                                    
-                                    
-                                    ;
+                                  $"\n Фобия:{user.Phobia}" +
+                                  $"\n Инвентарь: {user.Inventory}");
                 Console.WriteLine("\n");
             }
            
@@ -82,7 +79,8 @@ namespace HopperGame
                         player.Health[rand.Next(player.Health.Count)],
                         player.Weigth = rand.Next(40,130),
                         player.Growth = rand.Next(140,210),
-                        player.Phobia[rand.Next(player.Phobia.Count)]
+                        player.Phobia[rand.Next(player.Phobia.Count)],
+                        player.Inventory[rand.Next(player.Inventory.Count)]
                     )
                  );
             }

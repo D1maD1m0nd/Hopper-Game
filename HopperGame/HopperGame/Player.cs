@@ -14,8 +14,8 @@ namespace HopperGame
         public int Old { get; set; }
         [DataMember]
         public List<string> Body { get; set; }
-        //[DataMember]
-        //public List<string> inventory { get; set; }
+        [DataMember]
+        public List<string> Inventory { get; set; }
         [DataMember]
         public List<string> Character { get; set; }
         [DataMember]
