@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
 
 
 namespace HopperGame
@@ -26,6 +27,9 @@ namespace HopperGame
         public List<string> Phobia { get; set; }
         public int Growth { get; set; }
         public int Weigth { get; set; }
+        public int ExperienceProf { get; set; }
+
+
 
     }
 }

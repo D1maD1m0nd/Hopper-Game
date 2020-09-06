@@ -39,10 +39,9 @@ namespace HopperGame
                 Console.WriteLine($" Имя пользователя: {user.Username}" +
                                   $" \n Профессия: {user.Prof}" +
                                   $" \n Описание профессии: {user.Skill}" +
-                                  $"\n Возраст: {user.Old}" +
-                                  $" \n Пол: {user.Gender} " +
-                                  $" \n Рост: {user.Growth}" +
-                                  $" \n Вес: {user.Weight}" +
+                                  $" \n Стаж: {user.ExperienceProf}" +
+                                  $"\n Возраст/Пол: {user.Old} лет {user.Gender} " +
+                                  $" \n Рост/Вес: {user.Growth} см {user.Weight} кг" +
                                   $"\n Здоровье:{user.Health}" +
                                   $"\n Характер:{user.Character}" +
                                   $"\n Хобби: {user.Hobby}" +
@@ -80,7 +79,8 @@ namespace HopperGame
                         player.Weigth = rand.Next(40,130),
                         player.Growth = rand.Next(140,210),
                         player.Phobia[rand.Next(player.Phobia.Count)],
-                        player.Inventory[rand.Next(player.Inventory.Count)]
+                        player.Inventory[rand.Next(player.Inventory.Count)],
+                        rand.Next(player.Old - 18)
                     )
                  );
             }

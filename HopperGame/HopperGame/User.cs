@@ -14,6 +14,7 @@
         public string Hobby { get; set; }
         public string Health { get; set; }
         public string Phobia { get; set; }
+        public int ExperienceProf { get; set; }
 
         public User
             (
@@ -28,7 +29,8 @@
                     int weight,
                     int growth,
                     string phobia,
-                    string inventory
+                    string inventory,
+                    int experienceprof
             )
         {
             Prof = prof;
@@ -43,6 +45,7 @@
             Weight = weight;
             Growth = growth;
             Phobia = phobia;
+            ExperienceProf = experienceprof;
         }
     }
 }
