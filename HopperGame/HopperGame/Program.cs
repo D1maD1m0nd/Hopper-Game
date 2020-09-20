@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace HopperGame
@@ -26,23 +28,8 @@ namespace HopperGame
             Bot.OnMessage += BotOnMessageReceived;
             Bot.StartReceiving(Array.Empty<UpdateType>());
 
-            //Создание объекта для сериализации json
-            
-            //foreach (var user in users)
-            //{
-            //    Console.WriteLine($" Имя пользователя: {user.Username}" +
-            //                      $" \n Профессия: {user.Prof}" +
-            //                      $" \n Описание профессии: {user.Skill}" +
-            //                      $" \n Стаж: {user.ExperienceProf}" +
-            //                      $"\n Возраст/Пол: {user.Old} лет {user.Gender} " +
-            //                      $" \n Рост/Вес: {user.Growth} см {user.Weight} кг" +
-            //                      $"\n Здоровье:{user.Health}" +
-            //                      $"\n Характер:{user.Character}" +
-            //                      $"\n Хобби: {user.Hobby}" +
-            //                      $"\n Фобия:{user.Phobia}" +
-            //                      $"\n Инвентарь: {user.Inventory}");
-            //    Console.WriteLine("\n");
-            //}
+            List<User> users = SerializedPlayerPropertyJson();
+            GenFilesPlayer(users);
 
             Console.ReadKey();
             Bot.StopReceiving();
@@ -70,6 +57,7 @@ namespace HopperGame
                     break;
                 case "Начать игру":
                     await Bot.SendTextMessageAsync(message.From.Id,"Игра началась");
+                    await SendDocumentOnTelegramChat(message);
                     break;
                 default:
                     text = @"Вот что я могу
@@ -98,6 +86,26 @@ namespace HopperGame
                 replyMarkup: replyKeyboard
 
             );
+        }
+
+        static async Task SendDocumentOnTelegramChat(Message message)
+        {
+            await Bot.SendChatActionAsync(message.Chat.Id, ChatAction.UploadDocument);
+            //Получаем путь до папки с фалами карточек игроков
+            string filePath = Configuration.PathPlayerFilesFlorder;
+            //Получаем список файлов
+            string[] playerAllFilesStrings = Directory.GetFiles(filePath);
+            foreach (var file in playerAllFilesStrings)
+            {
+                
+                using var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+                string fileName = file.Split(Path.DirectorySeparatorChar).Last();
+                await Bot.SendDocumentAsync(
+                    chatId: message.Chat.Id,
+                    document: new InputOnlineFile(fileStream, fileName)
+                );
+            }
+            
         }
         // Генерация списка пользователей, входные данные объект с свойствами, которые нужно присвоить игрокам
         //количество игроков ,которые необходимо сгенерировать
@@ -173,7 +181,7 @@ namespace HopperGame
         static void GenFilesPlayer(List<User> users)
         {
             int i = 1;
-            string filepath = $"../../../player {i}";
+            string filepath = $"{Configuration.PathPlayerFilesFlorder}player{i}.txt";
             foreach (var user in users)
             {
                 using (StreamWriter sw = new StreamWriter(filepath, false, System.Text.Encoding.Default))
@@ -189,7 +197,7 @@ namespace HopperGame
                     sw.WriteLine($"Фобия:{user.Phobia}");
                     sw.WriteLine($"Инвентарь: {user.Inventory}");
                 }
-                filepath = $"../../../player{i++}";
+                filepath = $"../../../ListPlayer/player{++i}.txt";
 
             }
         }
