@@ -1,14 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.InputFiles;
-
 
 namespace HopperGame
 {
@@ -24,6 +23,13 @@ namespace HopperGame
             Bot = new TelegramBotClient(Configuration.BotToken);
             var me = await Bot.GetMeAsync();
             Console.Title = me.Username;
+            Bot.OnMessage += BotOnMessageReceived;
+            Bot.StartReceiving(Array.Empty<UpdateType>());
+            //Bot.OnMessageEdited += BotOnMessageReceived;
+            //Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
+            //Bot.OnInlineQuery += BotOnInlineQueryReceived;
+            //Bot.OnInlineResultChosen += BotOnChosenInlineResultReceived;
+            //Bot.OnReceiveError += BotOnReceiveError;
 
             //Создание объекта для сериализации json
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
@@ -61,7 +67,82 @@ namespace HopperGame
                                   $"\n Инвентарь: {user.Inventory}");
                 Console.WriteLine("\n");
             }
-           
+
+            Console.ReadKey();
+            Bot.StopReceiving();
+
+        }
+        private static async void BotOnMessageReceived(object sender, MessageEventArgs e)
+        {
+            var message = e.Message;
+            if (message == null || message.Type != MessageType.Text)
+            {
+                return;
+            }
+            string nameUser = $"{message.From.FirstName} {message.From.LastName}";
+            switch (message.Text)
+            {
+                case "/start":
+                    string text = @"Список команд: 
+                                    /start - запуск бота;
+                                    /keyboard - вызов клавиатуры;
+                                    /menu - вызов меню;";
+                    await Bot.SendTextMessageAsync(message.From.Id, text);
+
+                    break;
+
+                case "/keyboard":
+                    
+                    await SendReplyKeyboard(message);
+                    break;
+                case "/menu":
+                    // Создание клавиатуры
+                    var menukeyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new[]
+                        {
+                            InlineKeyboardButton.WithUrl("YouTube","https://www.youtube.com/watch?v=v8YmhbNf5Nw"),
+                            InlineKeyboardButton.WithUrl("Yandex","https://praktikum.yandex.ru/backend-developer?utm_source=google&utm_medium=cpc&utm_campaign=Google_KMC_Python_Video&utm_content=109842331618&gclid=CjwKCAjw2Jb7BRBHEiwAXTR4jbWtpZX4HkC-nX4nsSYznAv1oQGXagEYERbdexAPcoXmhNSx90FrQBoCydEQAvD_BwE"),
+                        },
+                        new []
+                        {
+                            InlineKeyboardButton.WithCallbackData("Пункт 1"),
+                            InlineKeyboardButton.WithCallbackData("Пункт 2")
+                        }
+                    });
+                    //Отправка клавы пользователю
+                    await Bot.SendTextMessageAsync(message.From.Id, "Выбирите пункт меню", replyMarkup: menukeyboard);
+                    break;
+                case "/doc":
+                    //await SendDocument(message);
+                    break;
+                default:
+                    text = @"Вот что я могу
+                                    Список команд: 
+                                    /start - запуск бота;
+                                    /keyboard - вызов клавиатуры;
+                                    /menu - вызов меню;"; ;
+                    await Bot.SendTextMessageAsync(message.From.Id, text);
+                    break;
+            }
+        }
+        static async Task SendReplyKeyboard(Message message)
+        {
+            var replyKeyboard = new ReplyKeyboardMarkup(new[]
+            {
+                new []
+                {
+                    new KeyboardButton("Начать игру"),
+                    new KeyboardButton("Правила"),
+                }
+            });
+
+            await Bot.SendTextMessageAsync(
+                chatId: message.Chat.Id,
+                text: "Выберите режим",
+                replyMarkup: replyKeyboard
+
+            );
         }
         // Генерация списка пользователей, входные данные объект с свойствами, которые нужно присвоить игрокам
         //количество игроков ,которые необходимо сгенерировать
