@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -28,8 +29,6 @@ namespace HopperGame
             Bot.OnMessage += BotOnMessageReceived;
             Bot.StartReceiving(Array.Empty<UpdateType>());
 
-            List<User> users = SerializedPlayerPropertyJson();
-            GenFilesPlayer(users);
 
             Console.ReadKey();
             Bot.StopReceiving();
@@ -42,31 +41,53 @@ namespace HopperGame
             {
                 return;
             }
-            switch (message.Text)
+
+            if (Configuration.GameOn && CheckNum(message.Text))
             {
-                case "/start":
-                    string text = @"Список команд: 
-                                    /start - запуск бота;
-                                    /Game - вызов клавиатуры;";
-                    await Bot.SendTextMessageAsync(message.From.Id, text);
-
-                    break;
-
-                case "/Game":
-                    await SendReplyKeyboard(message);
-                    break;
-                case "Начать игру":
-                    await Bot.SendTextMessageAsync(message.From.Id,"Игра началась");
+                int countUsers = Convert.ToInt32(message.Text);
+                if (countUsers > 5 && countUsers < 20)
+                {
+                    List<User> users = SerializedPlayerPropertyJson(countUsers);
+                    GenFilesPlayer(users);
                     await SendDocumentOnTelegramChat(message);
-                    break;
-                default:
-                    text = @"Вот что я могу
-                                    Список команд: 
-                                    /start - запуск бота;
-                                    /keyboard - вызов клавиатуры;
-                                    /menu - вызов меню;"; ;
-                    await Bot.SendTextMessageAsync(message.From.Id, text);
-                    break;
+                }
+                else
+                {
+                    Configuration.GameOn = false;
+                }
+                
+
+
+            }
+            else{
+                switch (message.Text)
+                {
+                    case "/start":
+                        string text = @"Список команд: 
+                                        /start - запуск бота;
+                                        /Game - вызов клавиатуры;";
+                        await Bot.SendTextMessageAsync(message.From.Id, text);
+
+                        break;
+
+                    case "/Game":
+                        await SendReplyKeyboard(message);
+                        break;
+                    case "Начать игру":
+                        Configuration.GameOn = true;
+                        await Bot.SendTextMessageAsync(message.From.Id,"Игра началась");
+                        await Bot.SendTextMessageAsync(message.From.Id, "Введите количество пользователей от 5 до 20");
+                        break;
+                    default:
+                        text = @"Вот что я могу
+                                        Список команд: 
+                                        /start - запуск бота;
+                                        /keyboard - вызов клавиатуры;
+                                        /menu - вызов меню;"; ;
+                        await Bot.SendTextMessageAsync(message.From.Id, text);
+                        break;
+                }
+
             }
         }
         static async Task SendReplyKeyboard(Message message)
@@ -109,51 +130,37 @@ namespace HopperGame
         }
         // Генерация списка пользователей, входные данные объект с свойствами, которые нужно присвоить игрокам
         //количество игроков ,которые необходимо сгенерировать
-        static List<User> GenUsers(Player player)
+        static List<User> GenUsers(Player player, int countUser)
         {
             //Список пользователей
             var users = new List<User>();
-            //Количество пользователей
-            Console.Write("Ввведите количество пользователей: ");
-            string countUser = Console.ReadLine();
-            int Count;
-            //Проверяем, что строка число
-            if (int.TryParse(countUser, out Count))
+            Random rand = new Random();
+            //Генерация списка пользователей
+            for (int i = 0; countUser > i; i++)
             {
-                Count = Convert.ToInt32(countUser);
-                Random rand = new Random();
-                //Генерация списка пользователей
-                for (int i = 0; Count > i; i++)
-                {
-                    Console.Write($"Введите имя пользователя № {i + 1}: ");
-                    string username = Console.ReadLine();
+                string username = $"Пользователь #{++i}";
 
-                    int itemProf = rand.Next(player.Profs.Count);
-                    users.Add(new User(
-                            player.Profs[itemProf].NameProf,
-                            player.Profs[itemProf].Skill,
-                            player.Gender[rand.Next(player.Gender.Count)],
-                            player.Old = rand.Next(16, 71),
-                            username,
-                            player.Character[rand.Next(player.Character.Count)],
-                            player.Hobby[rand.Next(player.Hobby.Count)],
-                            player.Health[rand.Next(player.Health.Count)],
-                            player.Weigth = rand.Next(40, 130),
-                            player.Growth = rand.Next(140, 210),
-                            player.Phobia[rand.Next(player.Phobia.Count)],
-                            player.Inventory[rand.Next(player.Inventory.Count)],
-                            rand.Next(player.Old - 18)
-                        )
-                    );
-                }
-                return users;
-            }else
-            {
-                return users;
-            }
-            
+                int itemProf = rand.Next(player.Profs.Count);
+                users.Add(new User(
+                        player.Profs[itemProf].NameProf,
+                        player.Profs[itemProf].Skill,
+                        player.Gender[rand.Next(player.Gender.Count)],
+                        player.Old = rand.Next(16, 71),
+                        username,
+                        player.Character[rand.Next(player.Character.Count)],
+                        player.Hobby[rand.Next(player.Hobby.Count)],
+                        player.Health[rand.Next(player.Health.Count)],
+                        player.Weigth = rand.Next(40, 130),
+                        player.Growth = rand.Next(140, 210),
+                        player.Phobia[rand.Next(player.Phobia.Count)],
+                        player.Inventory[rand.Next(player.Inventory.Count)],
+                        rand.Next(player.Old - 18)
+                    )
+                );
         }
-        static List<User> SerializedPlayerPropertyJson()
+        return users;
+        }
+        static List<User> SerializedPlayerPropertyJson(int countUser)
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
 
@@ -171,7 +178,7 @@ namespace HopperGame
                 {
                     foreach (var player in newPlayer)
                     {
-                        users = GenUsers(player);
+                        users = GenUsers(player, countUser);
                     }
                 }
             }
@@ -200,6 +207,12 @@ namespace HopperGame
                 filepath = $"../../../ListPlayer/player{++i}.txt";
 
             }
+        }
+
+        static bool CheckNum(string s)
+        {
+            //Проверяем, что строка число
+            return int.TryParse(s, out _);
         }
     }
         
