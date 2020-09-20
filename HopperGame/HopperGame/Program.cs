@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -45,11 +44,13 @@ namespace HopperGame
             if (Configuration.GameOn && CheckNum(message.Text))
             {
                 int countUsers = Convert.ToInt32(message.Text);
-                if (countUsers > 5 && countUsers < 20)
+
+                if (countUsers >= 5 && countUsers <= 20)
                 {
                     List<User> users = SerializedPlayerPropertyJson(countUsers);
                     GenFilesPlayer(users);
                     await SendDocumentOnTelegramChat(message);
+                    
                 }
                 else
                 {
@@ -83,7 +84,7 @@ namespace HopperGame
                                         Список команд: 
                                         /start - запуск бота;
                                         /keyboard - вызов клавиатуры;
-                                        /menu - вызов меню;"; ;
+                                        /menu - вызов меню;"; 
                         await Bot.SendTextMessageAsync(message.From.Id, text);
                         break;
                 }
@@ -138,7 +139,7 @@ namespace HopperGame
             //Генерация списка пользователей
             for (int i = 0; countUser > i; i++)
             {
-                string username = $"Пользователь #{++i}";
+                string username = $"Пользователь #{i}";
 
                 int itemProf = rand.Next(player.Profs.Count);
                 users.Add(new User(
@@ -157,8 +158,9 @@ namespace HopperGame
                         rand.Next(player.Old - 18)
                     )
                 );
-        }
-        return users;
+            }
+
+            return users;
         }
         static List<User> SerializedPlayerPropertyJson(int countUser)
         {
@@ -178,6 +180,7 @@ namespace HopperGame
                 {
                     foreach (var player in newPlayer)
                     {
+                        
                         users = GenUsers(player, countUser);
                     }
                 }
@@ -205,7 +208,6 @@ namespace HopperGame
                     sw.WriteLine($"Инвентарь: {user.Inventory}");
                 }
                 filepath = $"../../../ListPlayer/player{++i}.txt";
-
             }
         }
 

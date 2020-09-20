@@ -33,6 +33,16 @@
                     int experienceprof
             )
         {
+            if (old < 18)
+            {
+                ExperienceProf = 0;
+
+            }
+            else
+            {
+                ExperienceProf = experienceprof;
+            }
+
             Prof = prof;
             Skill = skill;
             Gender = gender;
@@ -45,7 +55,7 @@
             Weight = weight;
             Growth = growth;
             Phobia = phobia;
-            ExperienceProf = experienceprof;
+           
         }
     }
 }
