@@ -1,8 +1,15 @@
 ﻿using System;
 using System.IO;
+using static System.IO.Path;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
-using static System.IO.Path;
+using System.Threading.Tasks;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.InputFiles;
+
 
 namespace HopperGame
 {
@@ -11,6 +18,7 @@ namespace HopperGame
 
     class Program
     {
+        private static TelegramBotClient Bot;
         static void Main()
         {
             //Создание объекта для сериализации json
