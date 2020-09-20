@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using static System.IO.Path;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
@@ -19,15 +18,18 @@ namespace HopperGame
     class Program
     {
         private static TelegramBotClient Bot;
-        static void Main()
+        static async Task Main()
         {
             //Remote on bot
             Bot = new TelegramBotClient(Configuration.BotToken);
+            var me = await Bot.GetMeAsync();
+            Console.Title = me.Username;
+
             //Создание объекта для сериализации json
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
             
             //Путь к файлу с характеристиками игрока
-            string filePath = GetFullPath(@"..\..\..\player.json");
+            string filePath = "../../../player.json";
            
             //Список возможных пользователей
             var users = new List<User>();

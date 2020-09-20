@@ -36,3 +36,7 @@ C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGam
 C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.dll
 C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.pdb
 C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.genruntimeconfig.cache
+C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGame\bin\Debug\netcoreapp3.1\Telegram.Bot.dll
+C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.csproj.CoreCompileInputs.cache
+C:\Users\Dimond97\Desktop\Proj\Hopper\HopperGameMainBraunch\HopperGame\HopperGame\obj\Debug\netcoreapp3.1\HopperGame.csproj.CopyComplete
