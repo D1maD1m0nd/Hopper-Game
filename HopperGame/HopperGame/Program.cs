@@ -79,21 +79,21 @@ namespace HopperGame
             {
                 return;
             }
-            string nameUser = $"{message.From.FirstName} {message.From.LastName}";
             switch (message.Text)
             {
                 case "/start":
                     string text = @"Список команд: 
                                     /start - запуск бота;
-                                    /keyboard - вызов клавиатуры;
-                                    /menu - вызов меню;";
+                                    /Game - вызов клавиатуры;";
                     await Bot.SendTextMessageAsync(message.From.Id, text);
 
                     break;
 
-                case "/keyboard":
-                    
+                case "/Game":
                     await SendReplyKeyboard(message);
+                    break;
+                case "Начать игру":
+                    await Bot.SendTextMessageAsync(message.From.Id,"Игра началась");
                     break;
                 case "/menu":
                     // Создание клавиатуры
