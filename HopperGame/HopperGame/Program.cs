@@ -107,40 +107,50 @@ namespace HopperGame
             var users = new List<User>();
             //Количество пользователей
             Console.Write("Ввведите количество пользователей: ");
-            int countUser = Convert.ToInt32(Console.ReadLine());
-            Random rand = new Random();
-            for (int i = 0; countUser > i; i++)
+            string countUser = Console.ReadLine();
+            int Count;
+            //Проверяем, что строка число
+            if (int.TryParse(countUser, out Count))
             {
-                Console.Write($"Введите имя пользователя № {i+1}: ");
-                string username = Console.ReadLine();
-                
-                int itemProf = rand.Next(player.Profs.Count);
-                users.Add(new User(
-                        player.Profs[itemProf].NameProf,
-                        player.Profs[itemProf].Skill,
-                        player.Gender[rand.Next(player.Gender.Count)],
-                        player.Old = rand.Next(16,71),
-                        username,
-                        player.Character[rand.Next(player.Character.Count)],
-                        player.Hobby[rand.Next(player.Hobby.Count)],
-                        player.Health[rand.Next(player.Health.Count)],
-                        player.Weigth = rand.Next(40,130),
-                        player.Growth = rand.Next(140,210),
-                        player.Phobia[rand.Next(player.Phobia.Count)],
-                        player.Inventory[rand.Next(player.Inventory.Count)],
-                        rand.Next(player.Old - 18)
-                    )
-                 );
-            }
-            return users;
-        }
+                Count = Convert.ToInt32(countUser);
+                Random rand = new Random();
+                //Генерация списка пользователей
+                for (int i = 0; Count > i; i++)
+                {
+                    Console.Write($"Введите имя пользователя № {i + 1}: ");
+                    string username = Console.ReadLine();
 
+                    int itemProf = rand.Next(player.Profs.Count);
+                    users.Add(new User(
+                            player.Profs[itemProf].NameProf,
+                            player.Profs[itemProf].Skill,
+                            player.Gender[rand.Next(player.Gender.Count)],
+                            player.Old = rand.Next(16, 71),
+                            username,
+                            player.Character[rand.Next(player.Character.Count)],
+                            player.Hobby[rand.Next(player.Hobby.Count)],
+                            player.Health[rand.Next(player.Health.Count)],
+                            player.Weigth = rand.Next(40, 130),
+                            player.Growth = rand.Next(140, 210),
+                            player.Phobia[rand.Next(player.Phobia.Count)],
+                            player.Inventory[rand.Next(player.Inventory.Count)],
+                            rand.Next(player.Old - 18)
+                        )
+                    );
+                }
+                return users;
+            }else
+            {
+                return users;
+            }
+            
+        }
         static List<User> SerializedPlayerPropertyJson()
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
 
             //Путь к файлу с характеристиками игрока
-            string filePath = "../../../player.json";
+            string filePath = Configuration.PathJsonProperty;
 
             //Список возможных пользователей
             var users = new List<User>();
@@ -159,6 +169,29 @@ namespace HopperGame
             }
 
             return users;
+        }
+        static void GenFilesPlayer(List<User> users)
+        {
+            int i = 1;
+            string filepath = $"../../../player {i}";
+            foreach (var user in users)
+            {
+                using (StreamWriter sw = new StreamWriter(filepath, false, System.Text.Encoding.Default))
+                {
+                    sw.WriteLine($"Имя пользователя: {user.Username}");
+                    sw.WriteLine($"Профессия: {user.Prof}");
+                    sw.WriteLine($"Стаж: {user.ExperienceProf}");
+                    sw.WriteLine($"Возраст/Пол: {user.Old} лет {user.Gender} ");
+                    sw.WriteLine($"Рост/Вес: {user.Growth} см {user.Weight} кг");
+                    sw.WriteLine($"Здоровье:{user.Health}");
+                    sw.WriteLine($"Характер:{user.Character}");
+                    sw.WriteLine($"Хобби: {user.Hobby}");
+                    sw.WriteLine($"Фобия:{user.Phobia}");
+                    sw.WriteLine($"Инвентарь: {user.Inventory}");
+                }
+                filepath = $"../../../player{i++}";
+
+            }
         }
     }
         
