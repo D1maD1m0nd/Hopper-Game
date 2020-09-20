@@ -21,6 +21,8 @@ namespace HopperGame
         private static TelegramBotClient Bot;
         static void Main()
         {
+            //Remote on bot
+            Bot = new TelegramBotClient(Configuration.BotToken);
             //Создание объекта для сериализации json
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
             
