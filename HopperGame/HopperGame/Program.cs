@@ -25,48 +25,24 @@ namespace HopperGame
             Console.Title = me.Username;
             Bot.OnMessage += BotOnMessageReceived;
             Bot.StartReceiving(Array.Empty<UpdateType>());
-            //Bot.OnMessageEdited += BotOnMessageReceived;
-            //Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
-            //Bot.OnInlineQuery += BotOnInlineQueryReceived;
-            //Bot.OnInlineResultChosen += BotOnChosenInlineResultReceived;
-            //Bot.OnReceiveError += BotOnReceiveError;
 
             //Создание объекта для сериализации json
-            var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
             
-            //Путь к файлу с характеристиками игрока
-            string filePath = "../../../player.json";
-           
-            //Список возможных пользователей
-            var users = new List<User>();
-
-            //Поток чтения JSON
-            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
-            {
-                var newPlayer = jsonFormatter.ReadObject(fs) as List<Player>;
-                if (newPlayer != null)
-                {
-                    foreach (var player in newPlayer)
-                    {
-                        users = GenUsers(player);
-                    }
-                }
-            }
-            foreach (var user in users)
-            {
-                Console.WriteLine($" Имя пользователя: {user.Username}" +
-                                  $" \n Профессия: {user.Prof}" +
-                                  $" \n Описание профессии: {user.Skill}" +
-                                  $" \n Стаж: {user.ExperienceProf}" +
-                                  $"\n Возраст/Пол: {user.Old} лет {user.Gender} " +
-                                  $" \n Рост/Вес: {user.Growth} см {user.Weight} кг" +
-                                  $"\n Здоровье:{user.Health}" +
-                                  $"\n Характер:{user.Character}" +
-                                  $"\n Хобби: {user.Hobby}" +
-                                  $"\n Фобия:{user.Phobia}" +
-                                  $"\n Инвентарь: {user.Inventory}");
-                Console.WriteLine("\n");
-            }
+            //foreach (var user in users)
+            //{
+            //    Console.WriteLine($" Имя пользователя: {user.Username}" +
+            //                      $" \n Профессия: {user.Prof}" +
+            //                      $" \n Описание профессии: {user.Skill}" +
+            //                      $" \n Стаж: {user.ExperienceProf}" +
+            //                      $"\n Возраст/Пол: {user.Old} лет {user.Gender} " +
+            //                      $" \n Рост/Вес: {user.Growth} см {user.Weight} кг" +
+            //                      $"\n Здоровье:{user.Health}" +
+            //                      $"\n Характер:{user.Character}" +
+            //                      $"\n Хобби: {user.Hobby}" +
+            //                      $"\n Фобия:{user.Phobia}" +
+            //                      $"\n Инвентарь: {user.Inventory}");
+            //    Console.WriteLine("\n");
+            //}
 
             Console.ReadKey();
             Bot.StopReceiving();
@@ -94,27 +70,6 @@ namespace HopperGame
                     break;
                 case "Начать игру":
                     await Bot.SendTextMessageAsync(message.From.Id,"Игра началась");
-                    break;
-                case "/menu":
-                    // Создание клавиатуры
-                    var menukeyboard = new InlineKeyboardMarkup(new[]
-                    {
-                        new[]
-                        {
-                            InlineKeyboardButton.WithUrl("YouTube","https://www.youtube.com/watch?v=v8YmhbNf5Nw"),
-                            InlineKeyboardButton.WithUrl("Yandex","https://praktikum.yandex.ru/backend-developer?utm_source=google&utm_medium=cpc&utm_campaign=Google_KMC_Python_Video&utm_content=109842331618&gclid=CjwKCAjw2Jb7BRBHEiwAXTR4jbWtpZX4HkC-nX4nsSYznAv1oQGXagEYERbdexAPcoXmhNSx90FrQBoCydEQAvD_BwE"),
-                        },
-                        new []
-                        {
-                            InlineKeyboardButton.WithCallbackData("Пункт 1"),
-                            InlineKeyboardButton.WithCallbackData("Пункт 2")
-                        }
-                    });
-                    //Отправка клавы пользователю
-                    await Bot.SendTextMessageAsync(message.From.Id, "Выбирите пункт меню", replyMarkup: menukeyboard);
-                    break;
-                case "/doc":
-                    //await SendDocument(message);
                     break;
                 default:
                     text = @"Вот что я могу
@@ -180,6 +135,31 @@ namespace HopperGame
             return users;
         }
 
+        static List<User> SerializedPlayerPropertyJson()
+        {
+            var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
+
+            //Путь к файлу с характеристиками игрока
+            string filePath = "../../../player.json";
+
+            //Список возможных пользователей
+            var users = new List<User>();
+
+            //Поток чтения и сериализации JSON
+            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                var newPlayer = jsonFormatter.ReadObject(fs) as List<Player>;
+                if (newPlayer != null)
+                {
+                    foreach (var player in newPlayer)
+                    {
+                        users = GenUsers(player);
+                    }
+                }
+            }
+
+            return users;
+        }
     }
         
 
