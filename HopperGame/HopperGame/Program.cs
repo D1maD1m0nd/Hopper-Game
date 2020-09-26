@@ -52,7 +52,8 @@ namespace HopperGame
                 {
                     List<User> users = SerializedPlayerPropertyJson(countUsers);
                     List<Hopper> hopper = SerializedHopperPropertyJson();
-                    GenFilesPlayer(users, hopper);
+                    List <Disaster> disaster= SerializedDisasterPropertyJson();
+                    GenFilesPlayer(users, hopper, disaster);
                     await SendDocumentOnTelegramChat(message);
 
                 }
@@ -152,9 +153,8 @@ namespace HopperGame
                 users.Add(new User(
                         player.Profs[itemProf].NameProf,
                         player.Profs[itemProf].Skill,
-                        player.Gender[rand.Next(player.Gender.Count)],
-                        //player.Old = rand.Next(16, 71),
-                        16,
+                        player.Gender[rand.Next(player.Gender.Count)], 
+                        player.Old = rand.Next(16, 71),
                         username,
                         player.Character[rand.Next(player.Character.Count)],
                         player.Hobby[rand.Next(player.Hobby.Count)],
@@ -164,7 +164,7 @@ namespace HopperGame
                         player.Phobia[rand.Next(player.Phobia.Count)],
                         player.Inventory[rand.Next(player.Inventory.Count)],
                         //Если значение меньше нуля, то возвращаем 0
-                        rand.Next(player.Old - 18 > 0 ? player.Old - 18:0)
+                        rand.Next((player.Old - 18) > 0 ? (player.Old - 18):0)
                     )
                 );
             }
@@ -172,12 +172,41 @@ namespace HopperGame
             return users;
         }
 
+        static List<Disaster> SerializedDisasterPropertyJson()
+        {
+            var jsonFormatter = new DataContractJsonSerializer(typeof(List<DisasterSerialize>));
+            //Путь к файлу с характеристиками игрока
+            string filePath = Configuration.PathJsonPropertyDisaster;
+            var rand = new Random();
+            List<Disaster> disaster= new List<Disaster>(1);
+
+            //Поток чтения и сериализации JSON
+            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                var newDisaster = jsonFormatter.ReadObject(fs) as List<DisasterSerialize>;
+
+                if (newDisaster != null)
+                {
+
+                    foreach (var item in newDisaster)
+
+                    {
+
+                        disaster.Add(new Disaster(
+                            item.Description[rand.Next(item.Description.Count)],
+                            rand.Next(1,35)));
+                    }
+                }
+
+                return disaster;
+
+            }
+        }
         static List<Hopper> SerializedHopperPropertyJson()
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(List<HopperSerialize>));
             //Путь к файлу с характеристиками игрока
-            string filePath =
-                "C:/Users/Dimond97/Desktop/Proj/Hopper/HopperGameMainBraunch/HopperGame/HopperGame/hopper.json";
+            string filePath = Configuration.PathJsonPropertyHopper;
             var rand = new Random();
             List<Hopper>hopper = new List<Hopper>(1);
 
@@ -242,7 +271,7 @@ namespace HopperGame
                 return users;
             }
 
-            static void GenFilesPlayer(List<User> users, List<Hopper> hopper)
+            static void GenFilesPlayer(List<User> users, List<Hopper> hopper, List<Disaster> disaster)
             {
                 int i = 1;
                 string filepath = $"{Configuration.PathPlayerFilesFlorder}player{i}.txt";
@@ -250,6 +279,13 @@ namespace HopperGame
                 int countRoom = 0;
                 string location = "";
                 string[] things = new string[3];
+                string descriptionDisaster = "";
+                int population = 0;
+                foreach (var item in disaster)
+                {
+                    descriptionDisaster = item.Description;
+                    population = item.RemainderPopulation;
+                }
                 foreach (var item in hopper)
                 {
                     area = item.Area;
@@ -263,6 +299,9 @@ namespace HopperGame
 
                     using (StreamWriter sw = new StreamWriter(filepath, false, System.Text.Encoding.Default))
                     {
+                        sw.WriteLine("Описание катастрофы");
+                        sw.WriteLine($"Описание: {descriptionDisaster}");
+                        sw.WriteLine($"Оставшееся население: {population}%");
                         sw.WriteLine("Описание бункера");
                         sw.WriteLine($"Площадь бункера: {area}");
                         sw.WriteLine($"Количество комнат в бункере: {countRoom}");

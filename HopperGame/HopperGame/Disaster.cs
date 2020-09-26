@@ -1,25 +1,24 @@
-﻿using System.Runtime.Serialization;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace HopperGame
 {
-
-    class Disaster
+    public class Disaster
     {
         //Описание катострофы
-        [DataMember]
-        public string Description;
-        //Дополнительное описание катастрофы
-        [DataMember]
-        public string SubDescription;
-        //Остаток насления
-        public int RemainderPopulation;
-        //Остаток обычных людей
-        public int NormalPopulation;
-        //Остаток военных
-        public int MilitaryPopulation;
-        //Остаток зараженных(сюда относятся зомби, мутанты или просто больные)
-        public int SickPupulation;
 
+        public string Description { get; set; }
+
+        //Остаток насления
+        public int RemainderPopulation { get; set; }
+
+        public Disaster(
+            string description,
+            int remainderPopulation)
+        {
+            Description = description;
+            RemainderPopulation = remainderPopulation;
+        }
     }
 }
