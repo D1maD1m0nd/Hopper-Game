@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Runtime.Serialization;
+
 
 namespace HopperGame
 {
@@ -14,13 +12,14 @@ namespace HopperGame
         //Дополнительное описание катастрофы
         [DataMember]
         public string SubDescription;
-        //Катоклзимы
-        [DataMember]
-        public string Cataclysm;
         //Остаток насления
         public int RemainderPopulation;
-        //Остаток воды
-        public int RemainderWater;
-      
+        //Остаток обычных людей
+        public int NormalPopulation;
+        //Остаток военных
+        public int MilitaryPopulation;
+        //Остаток зараженных(сюда относятся зомби, мутанты или просто больные)
+        public int SickPupulation;
+
     }
 }

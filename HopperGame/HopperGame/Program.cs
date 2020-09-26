@@ -19,8 +19,10 @@ namespace HopperGame
     class Program
     {
         private static TelegramBotClient Bot;
+
         static async Task Main()
         {
+
             //Remote on bot
             Bot = new TelegramBotClient(Configuration.BotToken);
             var me = await Bot.GetMeAsync();
@@ -33,6 +35,7 @@ namespace HopperGame
             Bot.StopReceiving();
 
         }
+
         private static async void BotOnMessageReceived(object sender, MessageEventArgs e)
         {
             var message = e.Message;
@@ -48,19 +51,21 @@ namespace HopperGame
                 if (countUsers >= 5 && countUsers <= 20)
                 {
                     List<User> users = SerializedPlayerPropertyJson(countUsers);
-                    GenFilesPlayer(users);
+                    List<Hopper> hopper = SerializedHopperPropertyJson();
+                    GenFilesPlayer(users, hopper);
                     await SendDocumentOnTelegramChat(message);
-                    
+
                 }
                 else
                 {
                     Configuration.GameOn = false;
                 }
-                
+
 
 
             }
-            else{
+            else
+            {
                 switch (message.Text)
                 {
                     case "/start":
@@ -76,7 +81,7 @@ namespace HopperGame
                         break;
                     case "Начать игру":
                         Configuration.GameOn = true;
-                        await Bot.SendTextMessageAsync(message.From.Id,"Игра началась");
+                        await Bot.SendTextMessageAsync(message.From.Id, "Игра началась");
                         await Bot.SendTextMessageAsync(message.From.Id, "Введите количество пользователей от 5 до 20");
                         break;
                     default:
@@ -84,18 +89,19 @@ namespace HopperGame
                                         Список команд: 
                                         /start - запуск бота;
                                         /keyboard - вызов клавиатуры;
-                                        /menu - вызов меню;"; 
+                                        /menu - вызов меню;";
                         await Bot.SendTextMessageAsync(message.From.Id, text);
                         break;
                 }
 
             }
         }
+
         static async Task SendReplyKeyboard(Message message)
         {
             var replyKeyboard = new ReplyKeyboardMarkup(new[]
             {
-                new []
+                new[]
                 {
                     new KeyboardButton("Начать игру"),
                     new KeyboardButton("Правила"),
@@ -119,7 +125,7 @@ namespace HopperGame
             string[] playerAllFilesStrings = Directory.GetFiles(filePath);
             foreach (var file in playerAllFilesStrings)
             {
-                
+
                 using var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
                 string fileName = file.Split(Path.DirectorySeparatorChar).Last();
                 await Bot.SendDocumentAsync(
@@ -127,8 +133,9 @@ namespace HopperGame
                     document: new InputOnlineFile(fileStream, fileName)
                 );
             }
-            
+
         }
+
         // Генерация списка пользователей, входные данные объект с свойствами, которые нужно присвоить игрокам
         //количество игроков ,которые необходимо сгенерировать
         static List<User> GenUsers(Player player, int countUser)
@@ -146,7 +153,8 @@ namespace HopperGame
                         player.Profs[itemProf].NameProf,
                         player.Profs[itemProf].Skill,
                         player.Gender[rand.Next(player.Gender.Count)],
-                        player.Old = rand.Next(16, 71),
+                        //player.Old = rand.Next(16, 71),
+                        16,
                         username,
                         player.Character[rand.Next(player.Character.Count)],
                         player.Hobby[rand.Next(player.Hobby.Count)],
@@ -155,68 +163,136 @@ namespace HopperGame
                         player.Growth = rand.Next(140, 210),
                         player.Phobia[rand.Next(player.Phobia.Count)],
                         player.Inventory[rand.Next(player.Inventory.Count)],
-                        rand.Next(player.Old - 18)
+                        //Если значение меньше нуля, то возвращаем 0
+                        rand.Next(player.Old - 18 > 0 ? player.Old - 18:0)
                     )
                 );
             }
 
             return users;
         }
-        static List<User> SerializedPlayerPropertyJson(int countUser)
+
+        static List<Hopper> SerializedHopperPropertyJson()
         {
-            var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
-
+            var jsonFormatter = new DataContractJsonSerializer(typeof(List<HopperSerialize>));
             //Путь к файлу с характеристиками игрока
-            string filePath = Configuration.PathJsonProperty;
-
-            //Список возможных пользователей
-            var users = new List<User>();
+            string filePath =
+                "C:/Users/Dimond97/Desktop/Proj/Hopper/HopperGameMainBraunch/HopperGame/HopperGame/hopper.json";
+            var rand = new Random();
+            List<Hopper>hopper = new List<Hopper>(1);
 
             //Поток чтения и сериализации JSON
             using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
             {
-                var newPlayer = jsonFormatter.ReadObject(fs) as List<Player>;
-                if (newPlayer != null)
+                var newHopper = jsonFormatter.ReadObject(fs) as List<HopperSerialize>;
+                
+                if (newHopper != null)
                 {
-                    foreach (var player in newPlayer)
+                    
+                    foreach (var item in newHopper)
+
                     {
-                        
-                        users = GenUsers(player, countUser);
+                     
+                        hopper.Add(new Hopper(item.Location[rand.Next(item.Location.Count)], HopperGenerateThings(item.Things)));
                     }
                 }
-            }
 
-            return users;
+                return hopper;
+
+            }
         }
-        static void GenFilesPlayer(List<User> users)
-        {
-            int i = 1;
-            string filepath = $"{Configuration.PathPlayerFilesFlorder}player{i}.txt";
-            foreach (var user in users)
+
+        static string[] HopperGenerateThings(List<string> thingList)
             {
-                using (StreamWriter sw = new StreamWriter(filepath, false, System.Text.Encoding.Default))
+                var rand = new Random();
+                string[] result = new string[3];
+                for (int i = 0; 3 > i; i++)
                 {
-                    sw.WriteLine($"Имя пользователя: {user.Username}");
-                    sw.WriteLine($"Профессия: {user.Prof}");
-                    sw.WriteLine($"Стаж: {user.ExperienceProf}");
-                    sw.WriteLine($"Возраст/Пол: {user.Old} лет {user.Gender} ");
-                    sw.WriteLine($"Рост/Вес: {user.Growth} см {user.Weight} кг");
-                    sw.WriteLine($"Здоровье:{user.Health}");
-                    sw.WriteLine($"Характер:{user.Character}");
-                    sw.WriteLine($"Хобби: {user.Hobby}");
-                    sw.WriteLine($"Фобия:{user.Phobia}");
-                    sw.WriteLine($"Инвентарь: {user.Inventory}");
+                    result[i] = thingList[rand.Next(thingList.Count)];
                 }
-                filepath = $"../../../ListPlayer/player{++i}.txt";
-            }
-        }
 
-        static bool CheckNum(string s)
-        {
-            //Проверяем, что строка число
-            return int.TryParse(s, out _);
-        }
+                return result;
+            }
+
+            static List<User> SerializedPlayerPropertyJson(int countUser)
+            {
+                var jsonFormatter = new DataContractJsonSerializer(typeof(List<Player>));
+
+                //Путь к файлу с характеристиками игрока
+                string filePath = Configuration.PathJsonPropertyPlayer;
+
+                //Список возможных пользователей
+                var users = new List<User>();
+
+                //Поток чтения и сериализации JSON
+                using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+                {
+                    var newPlayer = jsonFormatter.ReadObject(fs) as List<Player>;
+                    if (newPlayer != null)
+                    {
+                        foreach (var player in newPlayer)
+                        {
+                          
+                            users = GenUsers(player, countUser);
+                        }
+
+                    }
+                }
+
+                return users;
+            }
+
+            static void GenFilesPlayer(List<User> users, List<Hopper> hopper)
+            {
+                int i = 1;
+                string filepath = $"{Configuration.PathPlayerFilesFlorder}player{i}.txt";
+                int area = 0;
+                int countRoom = 0;
+                string location = "";
+                string[] things = new string[3];
+                foreach (var item in hopper)
+                {
+                    area = item.Area;
+                    countRoom = item.CountRoom;
+                    location = item.Location;
+                    things = item.Things;
+                }
+
+                foreach (var user in users)
+                {
+
+                    using (StreamWriter sw = new StreamWriter(filepath, false, System.Text.Encoding.Default))
+                    {
+                        sw.WriteLine("Описание бункера");
+                        sw.WriteLine($"Площадь бункера: {area}");
+                        sw.WriteLine($"Количество комнат в бункере: {countRoom}");
+                        sw.WriteLine($"Описание местности , где расположен бункер: {location}");
+                        sw.WriteLine($"Вещи в бункере: {string.Join(',', things)}");
+                        sw.WriteLine($"Имя пользователя: {user.Username}");
+                        sw.WriteLine($"Профессия: {user.Prof}");
+                        sw.WriteLine($"Стаж: {user.ExperienceProf}");
+                        sw.WriteLine($"Возраст/Пол: {user.Old} лет {user.Gender} ");
+                        sw.WriteLine($"Рост/Вес: {user.Growth} см {user.Weight} кг");
+                        sw.WriteLine($"Здоровье:{user.Health}");
+                        sw.WriteLine($"Характер:{user.Character}");
+                        sw.WriteLine($"Хобби: {user.Hobby}");
+                        sw.WriteLine($"Фобия:{user.Phobia}");
+                        sw.WriteLine($"Инвентарь: {user.Inventory}");
+                    }
+
+                    filepath = $"../../../ListPlayer/player{++i}.txt";
+                }
+            }
+
+
+            static bool CheckNum(string s)
+            {
+                //Проверяем, что строка число
+                return int.TryParse(s, out _);
+            }
+        
     }
+}
+
         
 
-}
