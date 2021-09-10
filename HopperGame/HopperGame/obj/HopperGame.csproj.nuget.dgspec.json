@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\Hopper-Game\\HopperGame\\HopperGame\\HopperGame.csproj": {}
+    "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\HopperGameMainBraunch\\HopperGame\\HopperGame\\HopperGame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\Hopper-Game\\HopperGame\\HopperGame\\HopperGame.csproj": {
+    "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\HopperGameMainBraunch\\HopperGame\\HopperGame\\HopperGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\Hopper-Game\\HopperGame\\HopperGame\\HopperGame.csproj",
+        "projectUniqueName": "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\HopperGameMainBraunch\\HopperGame\\HopperGame\\HopperGame.csproj",
         "projectName": "HopperGame",
-        "projectPath": "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\Hopper-Game\\HopperGame\\HopperGame\\HopperGame.csproj",
+        "projectPath": "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\HopperGameMainBraunch\\HopperGame\\HopperGame\\HopperGame.csproj",
         "packagesPath": "C:\\Users\\Dimond97\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\Hopper-Game\\HopperGame\\HopperGame\\obj\\",
+        "outputPath": "C:\\Users\\Dimond97\\Desktop\\Proj\\Hopper\\HopperGameMainBraunch\\HopperGame\\HopperGame\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dimond97\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -37,6 +37,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Telegram.Bot": {
+              "target": "Package",
+              "version": "[15.7.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

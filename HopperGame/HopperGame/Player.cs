@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
-
 
 namespace HopperGame
 {

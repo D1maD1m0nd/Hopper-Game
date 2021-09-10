@@ -33,8 +33,17 @@
                     int experienceprof
             )
         {
-            Prof = prof;
-            Skill = skill;
+
+            if (old < 18)
+            {
+                Prof = "";
+                Skill = "";
+            }
+            else
+            {
+                Prof = prof;
+                Skill = skill;
+            }
             Gender = gender;
             Old = old;
             Username = username;
@@ -46,6 +55,7 @@
             Growth = growth;
             Phobia = phobia;
             ExperienceProf = experienceprof;
+
         }
     }
 }
